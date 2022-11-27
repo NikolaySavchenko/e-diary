@@ -45,9 +45,9 @@ def remove_chastisements(schoolkid_name):
 def create_commendation(schoolkid_name, subject):
     client_card = get_schoolkid(schoolkid_name)
     lessons = Lesson.objects.filter(year_of_study=client_card.year_of_study,
-                                    group_letter=client_card.group_letter, subject__title=subject)
+                    group_letter=client_card.group_letter, subject__title=subject)
     random_compliment = choice(compliments)
-    lesson = choice(lessons.reverse()[:5])
+    lesson = choice(lessons.order_by('date').reverse()[:5])
     subject_card = Subject.objects.filter(title__contains=subject, year_of_study__contains=lesson.year_of_study).first()
     Commendation.objects.create(text=random_compliment, created=lesson.date, schoolkid=client_card,
                                 subject=subject_card, teacher=lesson.teacher)
