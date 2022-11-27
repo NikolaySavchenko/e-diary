@@ -15,10 +15,7 @@ def fix_marks(schoolkid_name):
     elif client_card.first() is None:
         return 'Не найдено ни одного ученика с подходящим именем!'
     client_marks = Mark.objects.filter(schoolkid=client_card.first().id)
-    client_bad_marks = client_marks.filter(points__lt=4)
-    for bad_mark in client_bad_marks:
-        bad_mark.points = 5
-        bad_mark.save()
+    client_marks.filter(points__lt=4).update(points=5)
     return 'Все ок!'
 
 def remove_chastisement(schoolkid_name):
