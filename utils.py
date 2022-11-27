@@ -48,7 +48,10 @@ def create_commendation(schoolkid_name, subject):
                     group_letter=client_card.group_letter, subject__title=subject)
     random_compliment = choice(compliments)
     lesson = choice(lessons.order_by('date').reverse()[:5])
-    subject_card = Subject.objects.filter(title__contains=subject, year_of_study__contains=lesson.year_of_study).first()
+    subject_card = Subject.objects.filter(title__contains=subject,
+                                          year_of_study__contains=lesson.year_of_study).first()
+    if lessons is None or subject_card is None:
+        return 'Подходящих уроков не найдено!'
     Commendation.objects.create(text=random_compliment, created=lesson.date, schoolkid=client_card,
                                 subject=subject_card, teacher=lesson.teacher)
     return 'Все ок!'
