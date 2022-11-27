@@ -7,7 +7,7 @@ from datacenter.models import Lesson
 from datacenter.models import Subject
 from datacenter.models import Commendation
 
-compliments = [
+COMPLIMENTS = [
     'Молодец!', 'Отлично!', 'Хорошо!', 'Гораздо лучше, чем я ожидал!', 'Ты меня приятно удивил!',
     'Великолепно!', 'Прекрасно!', 'Ты меня очень обрадовал!', 'Именно этого я давно ждал от тебя!',
     'Сказано здорово – просто и ясно!', 'Ты, как всегда, точен!', 'Очень хороший ответ!',
@@ -48,7 +48,7 @@ def create_commendation(schoolkid_name, subject):
                     group_letter=client_card.group_letter, subject__title=subject).order_by('-date')
     if lessons is None:
         return 'Подходящих уроков не найдено!'
-    random_compliment = choice(compliments)
+    random_compliment = choice(COMPLIMENTS)
     lesson = choice(lessons[:5])
     subject_card = Subject.objects.filter(title__contains=subject,
                                           year_of_study__contains=lesson.year_of_study).first()
